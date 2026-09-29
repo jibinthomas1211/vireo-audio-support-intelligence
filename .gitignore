@@ -1,6 +1,12 @@
 backend/.env
 backend/.venv/
 backend/__pycache__/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage*
+coverage/
+.env
 frontend/node_modules/
 frontend/dist/
 files
