@@ -45,14 +45,17 @@ source .venv/bin/activate
 
 pip install -r requirements.txt
 
-# (Optional) Add your Gemini API key for AI summaries
-Copy `backend/.env.example` to `backend/.env` and set `GEMINI_API_KEY` locally.
+# Copy the env template and configure
+cp .env.example .env
+# Edit .env to set:
+#   DATA_DIR=../files          (path to CSV data directory, defaults to ../files/)
+#   GEMINI_API_KEY=your_key    (optional, for AI-generated summaries)
 
 # Start the server
 python -m uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-The backend loads all CSV files from the `files/` directory into an in-memory SQLite database on startup. This takes about 5 seconds.
+The backend loads all CSV files from the directory specified by `DATA_DIR` (defaults to `../files/`) into an in-memory SQLite database on startup. This takes about 5 seconds.
 
 ### 2. Start the Frontend
 

@@ -13,6 +13,9 @@ import sqlite3
 import os
 from datetime import datetime, timedelta
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 # SLA targets from support-policy.pdf §3 (in minutes)
@@ -26,11 +29,18 @@ SLA_BREACH_CREDIT = 350
 
 
 def find_data_dir():
-    """Locate the files/ directory relative to backend/."""
+    """Locate the data directory. Uses DATA_DIR env var if set, otherwise defaults to ../files/."""
+    env_dir = os.getenv("DATA_DIR")
+    if env_dir:
+        p = Path(env_dir).resolve()
+        if p.exists():
+            return p
+        raise FileNotFoundError(f"DATA_DIR is set to '{env_dir}' but the directory does not exist")
     base = Path(__file__).resolve().parent.parent / "files"
     if base.exists():
         return base
-    raise FileNotFoundError(f"Data directory not found at {base}")
+    raise FileNotFoundError(f"Data directory not found at {base}. Set DATA_DIR in .env to override.")
+
 
 
 def find_csv(data_dir: Path, suffix: str) -> Path:
